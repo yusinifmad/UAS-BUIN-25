@@ -1,0 +1,121 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page_title }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>{{ page_title }}</h1>
+
+    <!-- Grafik Batang Total Sales dengan Data Aktual dan Prediksi -->
+    <h2>Total Sales Prediction vs Actual</h2>
+    <canvas id="salesChart"></canvas>
+    <script>
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesData = {
+            labels: {{ sales_prediction.predicted_months|safe }},
+            datasets: [
+                {
+                    label: 'Prediksi Penjualan',
+                    data: {{ sales_prediction.predicted_sales|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1,
+                    type: 'line',
+                    fill: false,
+                },
+                {
+                    label: 'Aktual Penjualan',
+                    data: {{ sales_prediction.actual_sales|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1,
+                    type: 'line',
+                }
+            ]
+        };
+
+        const salesChart = new Chart(salesCtx, {
+            type: 'bar',
+            data: salesData,
+        });
+    </script>
+
+    <!-- Grafik Batang Total Profit dengan Data Aktual dan Prediksi -->
+    <h2>Total Profit Prediction vs Actual</h2>
+    <canvas id="profitChart"></canvas>
+    <script>
+        const profitCtx = document.getElementById('profitChart').getContext('2d');
+        const profitData = {
+            labels: {{ profit_prediction.predicted_months|safe }},
+            datasets: [
+                {
+                    label: 'Prediksi Profit',
+                    data: {{ profit_prediction.predicted_profit|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1,
+                    type: 'line',
+                    fill: false,
+                },
+                {
+                    label: 'Aktual Profit',
+                    data: {{ profit_prediction.actual_profit|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1,
+                    type: 'line',
+                }
+            ]
+        };
+
+        const profitChart = new Chart(profitCtx, {
+            type: 'bar',
+            data: profitData,
+        });
+    </script>
+
+    <!-- Grafik Batang Shipping Delay dengan Data Aktual dan Prediksi -->
+    <h2>Shipping Delay Prediction vs Actual</h2>
+    <canvas id="delayChart"></canvas>
+    <script>
+        const delayCtx = document.getElementById('delayChart').getContext('2d');
+        const delayData = {
+            labels: {{ shipping_delay_prediction.predicted_months|safe }},
+            datasets: [
+                {
+                    label: 'Prediksi Delay',
+                    data: {{ shipping_delay_prediction.predicted_delay|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1,
+                    type: 'line',
+                    fill: false,
+                },
+                {
+                    label: 'Aktual Delay',
+                    data: {{ shipping_delay_prediction.actual_delay|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1,
+                    type: 'line',
+                }
+            ]
+        };
+
+        const delayChart = new Chart(delayCtx, {
+            type: 'bar',
+            data: delayData,
+        });
+    </script>
+
+<p>Total Sales Prediction: {{ summary_stats.total_sales_prediction }}</p>
+    <p>Total Profit Prediction: {{ summary_stats.total_profit_prediction }}</p>
+    <p>Total Shipping Delay Prediction: {{ summary_stats.total_delay_prediction }}</p>
+
+</body>
+</html>
